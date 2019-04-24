@@ -1,6 +1,5 @@
 package com.example.unidirectionalstateflow.ui.modules.clans
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.unidirectionalstateflow.data.model.Clan
@@ -15,8 +14,8 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
         postValue(
             ClanListViewState(
                 adapterList = listOf(
-                    Clan(1,"One"),
-                    Clan(2,"Two")
+                    Clan(1, "One"),
+                    Clan(2, "Two")
                 )
             )
         )
@@ -30,6 +29,14 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
         get() = _viewEffectLiveData
 
     override fun processInput(viewEvent: ClanListEvent) {
+        when (viewEvent) {
+            is ClanListEvent.AddItemToListEvent ->
+                _viewStateLiveData.apply {
+                    postValue(value?.copy(adapterList = value?.adapterList?.plus(Clan.ranDomClan())))
+
+                }
+        }
+
     }
 
 

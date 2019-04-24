@@ -4,7 +4,7 @@ import com.example.unidirectionalstateflow.data.model.Clan
 
 data class ClanListViewState(
     val clanListPageTitle : String = "",
-    val adapterList : List<Clan> = emptyList(),
+    val adapterList: List<Clan>? = emptyList(),
     val showListLoading : Boolean = false,
     val showPageError : Boolean = false,
     val pageErrorText : String = "")
@@ -15,5 +15,6 @@ sealed class ClanListViewEffect{
 
 sealed class ClanListEvent{
     object ScreenLoadEvent : ClanListEvent()
+    object AddItemToListEvent : ClanListEvent()
 }
 

@@ -10,6 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -35,6 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
-            android:background="@android:color/transparent"
+            android:animateLayoutChanges="true"
+            android:animationCache="false"
+            android:background="?attr/colorPrimary"
+            app:itemIconTint="@android:color/background_light"
+            app:itemTextColor="#FFFFFF"
+            app:layout_behavior="com.example.unidirectionalstateflow.ui.components.BottomNavigationBehavior"
             app:menu="@menu/home_bottom_navigation_menu"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,10 +1,10 @@
 package com.example.unidirectionalstateflow.ui.modules.clans
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.unidirectionalstateflow.R
 import com.example.unidirectionalstateflow.data.model.Clan
 import com.example.unidirectionalstateflow.ui.components.BindableAdapter
@@ -43,8 +43,8 @@ class ClanListRecyclerAdapter
     override fun getItemCount(): Int = clanList.size
 
     override fun setData(data: ClanListViewState?) {
-        data?.let {
-            clanList = it.adapterList
+        data?.adapterList?.let {
+            clanList = it
             notifyDataSetChanged()
         }
     }

@@ -1,19 +1,16 @@
 package com.example.unidirectionalstateflow.ui.modules.clans
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.unidirectionalstateflow.R
 import com.example.unidirectionalstateflow.data.model.Clan
 import com.example.unidirectionalstateflow.databinding.FragmentClanListBinding
-import com.example.unidirectionalstateflow.di.Injectable
 import com.example.unidirectionalstateflow.ui.BaseFragment
 import javax.inject.Inject
 
@@ -49,8 +46,13 @@ class ClanListFragment : BaseFragment(){
             layoutManager = LinearLayoutManager(context)
             adapter = ClanListRecyclerAdapter()
         }
+        binding.floatingActionButton.setOnClickListener { onFabClicked() }
         return binding.root
 
+    }
+
+    fun onFabClicked() {
+        sendEventToViewModel(ClanListEvent.AddItemToListEvent)
     }
 
 
@@ -67,10 +69,12 @@ class ClanListFragment : BaseFragment(){
 
     override fun onStart() {
         super.onStart()
-        viewModel.processInput(ClanListEvent.ScreenLoadEvent)
+        sendEventToViewModel(ClanListEvent.ScreenLoadEvent)
     }
 
-
+    private fun sendEventToViewModel(event: ClanListEvent) {
+        viewModel.processInput(event)
+    }
 
 
     override fun onDetach() {

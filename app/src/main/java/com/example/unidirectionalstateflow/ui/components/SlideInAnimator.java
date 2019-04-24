@@ -3,7 +3,7 @@ package com.example.unidirectionalstateflow.ui.components;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
-public class SlideInAnimator implements ScrollAnimator{
+public class SlideInAnimator implements ScrollAnimator {
 
     @Override
     public void runEnterAnimation(View view) {
