@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/navigation_dashboard_fragment"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="@string/dashboard"/>
+
+    <item
+            android:id="@+id/navigation_clan_list_fragment"
+            android:icon="@drawable/ic_clans_black_24dp"
+            android:title="@string/clans"/>
+
+    <item
+            android:id="@+id/navigation_settings_fragment"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings"/>
+
+</menu>

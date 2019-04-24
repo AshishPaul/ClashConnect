@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel"
+                  type="com.example.unidirectionalstateflow.ui.modules.clans.ClanListViewModel"/>
+
+    </data>
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_clan_list_recyclerview"
+            android:name="com.example.a40002778.myapplication.demos.ItemFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:data="@{viewModel.viewStateLiveData}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".ui.modules.clans.ClanListFragment"
+            tools:listitem="@layout/list_item_clan"/>
+</layout>
