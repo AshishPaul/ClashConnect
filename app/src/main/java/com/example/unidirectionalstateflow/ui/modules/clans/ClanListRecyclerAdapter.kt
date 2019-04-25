@@ -11,7 +11,7 @@ import com.example.unidirectionalstateflow.ui.components.BindableAdapter
 import kotlinx.android.synthetic.main.list_item_clan.view.*
 
 class ClanListRecyclerAdapter
-    : RecyclerView.Adapter<ClanListRecyclerAdapter.ViewHolder>(), BindableAdapter<ClanListViewState> {
+    : RecyclerView.Adapter<ClanListRecyclerAdapter.ViewHolder>(), BindableAdapter<List<Clan>> {
 
     interface ClanListInteractionListener {
         fun onItemClick()
@@ -33,22 +33,16 @@ class ClanListRecyclerAdapter
         val item = clanList[position]
         holder.idTextView.text = item.id.toString()
         holder.nameTextView.text = item.name
-
-        /*with(holder.mView) {
-            tag = item
-            setOnClickListener()
-        }*/
     }
 
     override fun getItemCount(): Int = clanList.size
 
-    override fun setData(data: ClanListViewState?) {
-        data?.adapterList?.let {
+    override fun setData(data: List<Clan>?) {
+        data?.let {
             clanList = it
             notifyDataSetChanged()
         }
     }
-
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val idTextView: TextView = mView.item_number

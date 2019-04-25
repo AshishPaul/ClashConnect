@@ -10,16 +10,7 @@ import javax.inject.Inject
 class ClanListViewModel @Inject constructor(private val fetchClansUseCase: FetchClansUseCase) :
     BaseViewModel<ClanListViewState, ClanListViewEffect, ClanListEvent>() {
 
-    private val _viewStateLiveData = MutableLiveData<ClanListViewState>().apply {
-        postValue(
-            ClanListViewState(
-                adapterList = listOf(
-                    Clan(1, "One"),
-                    Clan(2, "Two")
-                )
-            )
-        )
-    }
+    private val _viewStateLiveData = MutableLiveData<ClanListViewState>()
 
     val viewStateLiveData: LiveData<ClanListViewState>
         get() = _viewStateLiveData
@@ -30,6 +21,16 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
 
     override fun processInput(viewEvent: ClanListEvent) {
         when (viewEvent) {
+            is ClanListEvent.ScreenLoadEvent ->
+                _viewStateLiveData.postValue(
+                    ClanListViewState(
+                        adapterList = listOf(
+                            Clan(1, "One"),
+                            Clan(2, "Two")
+                        )
+                    )
+                )
+
             is ClanListEvent.AddItemToListEvent ->
                 _viewStateLiveData.apply {
                     postValue(value?.copy(adapterList = value?.adapterList?.plus(Clan.ranDomClan())))

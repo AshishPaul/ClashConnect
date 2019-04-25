@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.unidirectionalstateflow.R
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 class ClanListFragment : BaseFragment(){
 
+    private lateinit var binding: FragmentClanListBinding
     private var listener: ClanListRecyclerAdapter.ClanListInteractionListener? = null
 
     interface ClanListFragmentInteractionListener {
@@ -34,19 +36,22 @@ class ClanListFragment : BaseFragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentClanListBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_clan_list,
             container,
             false
         )
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
         with(binding.fragmentClanListRecyclerview) {
             layoutManager = LinearLayoutManager(context)
             adapter = ClanListRecyclerAdapter()
         }
         binding.floatingActionButton.setOnClickListener { onFabClicked() }
+
+        viewModel.viewStateLiveData.observe(this, Observer{vs -> renderViewState(vs)})
+        viewModel.viewEffectLiveData.observe(this, Observer{ve -> triggerViewEffects(ve)})
+
         return binding.root
 
     }
@@ -57,7 +62,7 @@ class ClanListFragment : BaseFragment(){
 
 
     private fun renderViewState(clanListViewState: ClanListViewState) {
-
+        binding.viewState = clanListViewState
     }
 
     private fun triggerViewEffects(clanListViewEffect: ClanListViewEffect) {
