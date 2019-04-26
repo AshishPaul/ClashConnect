@@ -11,3 +11,13 @@
 /build
 /captures
 .externalNativeBuild
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/runConfigurations.xml
+.idea/vcs.xml
+.idea/codeStyles/codeStyleConfig.xml
+.idea/codeStyles/Project.xml
+app/src/main/java/com/example/unidirectionalstateflow/ui/components/BottomNavigationBehavior.kt
+app/src/main/res/drawable/ic_add_black_24dp.xml
+gradle/wrapper/gradle-wrapper.jar
+gradle/wrapper/gradle-wrapper.properties
