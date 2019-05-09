@@ -10,35 +10,51 @@ import javax.inject.Inject
 class ClanListViewModel @Inject constructor(private val fetchClansUseCase: FetchClansUseCase) :
     BaseViewModel<ClanListViewState, ClanListViewEffect, ClanListEvent>() {
 
-    private val _viewStateLiveData = MutableLiveData<ClanListViewState>()
+    private val viewStateMLD = MutableLiveData<ClanListViewState>()
+    private val viewEffectMLD = MutableLiveData<ClanListViewEffect>()
 
     val viewStateLiveData: LiveData<ClanListViewState>
-        get() = _viewStateLiveData
-
-    private val _viewEffectLiveData = MutableLiveData<ClanListViewEffect>()
+        get() = viewStateMLD
     val viewEffectLiveData: LiveData<ClanListViewEffect>
-        get() = _viewEffectLiveData
+        get() = viewEffectMLD
 
-    override fun processInput(viewEvent: ClanListEvent) {
+    override fun processEvent(viewEvent: ClanListEvent) {
         when (viewEvent) {
-            is ClanListEvent.ScreenLoadEvent ->
-                _viewStateLiveData.postValue(
-                    ClanListViewState(
-                        adapterList = listOf(
-                            Clan(1, "One"),
-                            Clan(2, "Two")
-                        )
-                    )
-                )
-
-            is ClanListEvent.AddItemToListEvent ->
-                _viewStateLiveData.apply {
-                    postValue(value?.copy(adapterList = value?.adapterList?.plus(Clan.ranDomClan())))
-
-                }
+            is ClanListEvent.ScreenLoadEvent -> onScreenLoadEvent()
+            is ClanListEvent.AddItemToListEvent -> onAddItemToListEvent()
         }
-
     }
+
+    private fun onAddItemToListEvent() {
+        viewStateMLD.apply {
+            postValue(value?.copy(adapterList = value?.adapterList?.plus(Clan.ranDomClan())))
+        }
+    }
+
+    private fun onScreenLoadEvent() {
+        viewStateMLD.postValue(
+            ClanListViewState(
+                adapterList = listOf(
+                    Clan(1, "One"),
+                    Clan(2, "Two")
+                )
+            )
+        )
+    }
+    val square : (Int) -> Unit = { }
+
+    fun testLamda(){
+
+
+        val nine = square(7)
+        passMeFunction(square)
+    }
+
+    fun passMeFunction(abc:(Int)->Unit){
+        abc(8)
+    }
+
+
 
 
 }

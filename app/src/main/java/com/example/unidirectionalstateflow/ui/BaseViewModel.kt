@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 abstract class BaseViewModel<ViewState,ViewEffect,ViewEvent> : ViewModel() {
 
 
-    abstract fun processInput(viewEvent: ViewEvent)
+    abstract fun processEvent(viewEvent: ViewEvent)
 }
 //
 //fun <T :ViewModel> getViewModelForFragment(fragment: Fragment, viewModelFactory: ViewModelProvider.Factory) : T =

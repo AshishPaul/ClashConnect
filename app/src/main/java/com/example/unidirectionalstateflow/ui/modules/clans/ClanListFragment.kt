@@ -78,7 +78,7 @@ class ClanListFragment : BaseFragment(){
     }
 
     private fun sendEventToViewModel(event: ClanListEvent) {
-        viewModel.processInput(event)
+        viewModel.processEvent(event)
     }
 
 
