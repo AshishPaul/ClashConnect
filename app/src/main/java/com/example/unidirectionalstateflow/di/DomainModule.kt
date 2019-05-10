@@ -1,8 +1,8 @@
 package com.zerogravity.myapplication.di
 
-import com.example.unidirectionalstateflow.data.LocalDbDataSource
-import com.example.unidirectionalstateflow.data.RemoteDataSource
-import com.example.unidirectionalstateflow.data.SharedPrefsDataSource
+import com.example.unidirectionalstateflow.data.source.local.LocalDbDataSource
+import com.example.unidirectionalstateflow.data.source.remote.RemoteDataSource
+import com.example.unidirectionalstateflow.data.source.local.SharedPrefsDataSource
 import com.example.unidirectionalstateflow.domain.FetchClansUseCase
 import com.example.unidirectionalstateflow.domain.FetchClansUseCaseImpl
 import dagger.Module
