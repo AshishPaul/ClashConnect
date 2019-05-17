@@ -1,10 +1,11 @@
 package com.example.unidirectionalstateflow.di
 
-import com.example.unidirectionalstateflow.data.source.local.LocalDbDataSource
-import com.example.unidirectionalstateflow.data.source.remote.RemoteDataSource
-import com.example.unidirectionalstateflow.data.source.local.SharedPrefsDataSource
-import com.example.unidirectionalstateflow.data.source.local.SharedPrefsDataSourceImpl
-import com.example.unidirectionalstateflow.data.source.remote.RemoteDataSourceImpl
+import com.example.unidirectionalstateflow.data.local.ClanDbSource
+import com.example.unidirectionalstateflow.data.local.ClanClanDbSourceImpl
+import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
+import com.example.unidirectionalstateflow.data.local.SharedPrefsSource
+import com.example.unidirectionalstateflow.data.local.SharedPrefsSourceImpl
+import com.example.unidirectionalstateflow.data.remote.RemoteDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,11 +20,11 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun providesLocalDbDataSource() : LocalDbDataSource =
-        LocalDbDataSourceImpl()
+    fun providesLocalDbDataSource() : ClanDbSource =
+        ClanClanDbSourceImpl()
 
     @Provides
     @Singleton
-    fun providesSharedPrefsDataSource() : SharedPrefsDataSource =
-        SharedPrefsDataSourceImpl()
+    fun providesSharedPrefsDataSource() : SharedPrefsSource =
+        SharedPrefsSourceImpl()
 }

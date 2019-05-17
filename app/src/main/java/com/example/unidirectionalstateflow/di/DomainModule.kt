@@ -1,10 +1,9 @@
-package com.zerogravity.myapplication.di
+package com.example.unidirectionalstateflow.di
 
-import com.example.unidirectionalstateflow.data.source.local.LocalDbDataSource
-import com.example.unidirectionalstateflow.data.source.remote.RemoteDataSource
-import com.example.unidirectionalstateflow.data.source.local.SharedPrefsDataSource
+import com.example.unidirectionalstateflow.data.local.ClanDbSource
+import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
+import com.example.unidirectionalstateflow.data.local.SharedPrefsSource
 import com.example.unidirectionalstateflow.domain.FetchClansUseCase
-import com.example.unidirectionalstateflow.domain.FetchClansUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -15,8 +14,8 @@ class DomainModule {
     @Provides
     @Singleton
     fun providesFetchClanUseCase(
-        localDbDataSource: LocalDbDataSource,
-        sharedPrefsDataSource: SharedPrefsDataSource,
-        remoteDataSource: RemoteDataSource
-    ): FetchClansUseCase = FetchClansUseCaseImpl(localDbDataSource, sharedPrefsDataSource, remoteDataSource)
+        remoteDataSource: RemoteDataSource,
+        clanDbSource: ClanDbSource,
+        sharedPrefsSource: SharedPrefsSource
+    ): FetchClansUseCase = FetchClansUseCase(remoteDataSource, clanDbSource, sharedPrefsSource)
 }

@@ -2,7 +2,7 @@ package com.example.unidirectionalstateflow.ui.modules.clans
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.unidirectionalstateflow.data.model.Clan
+import com.example.unidirectionalstateflow.data.local.model.Clan
 import com.example.unidirectionalstateflow.domain.FetchClansUseCase
 import com.example.unidirectionalstateflow.ui.BaseViewModel
 import javax.inject.Inject

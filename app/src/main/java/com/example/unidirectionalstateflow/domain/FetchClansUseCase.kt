@@ -1,20 +1,26 @@
 package com.example.unidirectionalstateflow.domain
 
-import com.example.unidirectionalstateflow.data.model.Clan
-import com.example.unidirectionalstateflow.data.source.local.LocalDbDataSource
-import com.example.unidirectionalstateflow.data.source.local.SharedPrefsDataSource
-import com.example.unidirectionalstateflow.data.source.remote.RemoteDataSource
+import com.example.unidirectionalstateflow.data.local.model.Clan
+import com.example.unidirectionalstateflow.data.remote.model.FetchClanListResponse
+import com.example.unidirectionalstateflow.data.local.ClanDbSource
+import com.example.unidirectionalstateflow.data.local.SharedPrefsSource
+import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
 import javax.inject.Inject
 
-interface FetchClansUseCase {
-    fun getClans() : List<Clan>
-}
+class FetchClansUseCase @Inject constructor(private val remoteDataSource: RemoteDataSource,
+                                            private val clanDbSource: ClanDbSource,
+                                            private val sharedPrefsSource: SharedPrefsSource
+) : UseCase() {
 
-class FetchClansUseCaseImpl @Inject constructor(private val localDbDataSource: LocalDbDataSource,
-                                                private val sharedPrefsDataSource: SharedPrefsDataSource,
-                                                private val remoteDataSource: RemoteDataSource
-) : FetchClansUseCase {
-    override fun getClans(): List<Clan> {
-        return mutableListOf()
+    override fun processAction(action: Action)  {
+    }
+
+    private fun fetchClansFromRemote() {
+        val fetchClanListResponse: FetchClanListResponse = remoteDataSource.fetchClans()
+        clanDbSource.saveClanList(fetchClanListResponse.clanList)
+    }
+
+    private fun getClanList(): List<Clan> {
+        return clanDbSource.getClanList()
     }
 }

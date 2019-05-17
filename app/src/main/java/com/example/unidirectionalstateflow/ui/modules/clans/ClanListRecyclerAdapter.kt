@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.unidirectionalstateflow.R
-import com.example.unidirectionalstateflow.data.model.Clan
+import com.example.unidirectionalstateflow.data.local.model.Clan
 import com.example.unidirectionalstateflow.ui.components.BindableAdapter
 import kotlinx.android.synthetic.main.list_item_clan.view.*
 

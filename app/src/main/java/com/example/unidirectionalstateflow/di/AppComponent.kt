@@ -2,7 +2,6 @@ package com.example.unidirectionalstateflow.di
 
 import android.app.Application
 import com.example.unidirectionalstateflow.AppController
-import com.zerogravity.myapplication.di.DomainModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

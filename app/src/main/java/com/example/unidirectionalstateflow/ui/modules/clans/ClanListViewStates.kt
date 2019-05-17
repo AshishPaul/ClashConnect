@@ -1,6 +1,6 @@
 package com.example.unidirectionalstateflow.ui.modules.clans
 
-import com.example.unidirectionalstateflow.data.model.Clan
+import com.example.unidirectionalstateflow.data.local.model.Clan
 
 data class ClanListViewState(
     val clanListPageTitle : String = "",
