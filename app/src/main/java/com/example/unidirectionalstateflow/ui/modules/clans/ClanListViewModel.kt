@@ -2,7 +2,7 @@ package com.example.unidirectionalstateflow.ui.modules.clans
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.unidirectionalstateflow.data.local.model.Clan
+import com.example.unidirectionalstateflow.data.local.db.model.Clan
 import com.example.unidirectionalstateflow.domain.FetchClansUseCase
 import com.example.unidirectionalstateflow.ui.BaseViewModel
 import javax.inject.Inject
@@ -10,6 +10,7 @@ import javax.inject.Inject
 class ClanListViewModel @Inject constructor(private val fetchClansUseCase: FetchClansUseCase) :
     BaseViewModel<ClanListViewState, ClanListViewEffect, ClanListEvent>() {
 
+    private var clanListLiveData: LiveData<List<Clan>>
     private val viewStateMLD = MutableLiveData<ClanListViewState>()
     private val viewEffectMLD = MutableLiveData<ClanListViewEffect>()
 
@@ -18,6 +19,9 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
     val viewEffectLiveData: LiveData<ClanListViewEffect>
         get() = viewEffectMLD
 
+    init{
+        clanListLiveData = fetchClansUseCase.getClanList()
+    }
     override fun processEvent(viewEvent: ClanListEvent) {
         when (viewEvent) {
             is ClanListEvent.ScreenLoadEvent -> onScreenLoadEvent()
@@ -32,6 +36,7 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
     }
 
     private fun onScreenLoadEvent() {
+        fetchClansUseCase.fetchClans()
         viewStateMLD.postValue(
             ClanListViewState(
                 adapterList = listOf(

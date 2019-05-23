@@ -16,7 +16,7 @@ public class DialogFactory {
 //                .make(anchorView, message, Snackbar.LENGTH_LONG);
 //        View snackbarView = snackbar.getView();
 //        try {
-//            TextView snackbarTextView = (TextView) snackbarView.findViewById(R.id.snackbar_text);
+//            TextView snackbarTextView = (TextView) snackbarView.findViewById(R.clanId.snackbar_text);
 //            snackbarTextView.setTextSize(15);
 //            snackbarTextView.setGravity(View.TEXT_ALIGNMENT_CENTER);
 //        } catch (Exception e) {

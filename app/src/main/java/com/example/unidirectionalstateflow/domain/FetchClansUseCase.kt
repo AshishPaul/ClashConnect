@@ -1,26 +1,17 @@
 package com.example.unidirectionalstateflow.domain
 
-import com.example.unidirectionalstateflow.data.local.model.Clan
-import com.example.unidirectionalstateflow.data.remote.model.FetchClanListResponse
-import com.example.unidirectionalstateflow.data.local.ClanDbSource
-import com.example.unidirectionalstateflow.data.local.SharedPrefsSource
-import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
+import androidx.lifecycle.LiveData
+import com.example.unidirectionalstateflow.data.local.db.model.Clan
+import com.example.unidirectionalstateflow.data.repository.ClanRepository
 import javax.inject.Inject
 
-class FetchClansUseCase @Inject constructor(private val remoteDataSource: RemoteDataSource,
-                                            private val clanDbSource: ClanDbSource,
-                                            private val sharedPrefsSource: SharedPrefsSource
-) : UseCase() {
+class FetchClansUseCase @Inject constructor(private val clanRepository: ClanRepository) {
 
-    override fun processAction(action: Action)  {
+    fun fetchClans() {
+        clanRepository.fetchClans()
     }
 
-    private fun fetchClansFromRemote() {
-        val fetchClanListResponse: FetchClanListResponse = remoteDataSource.fetchClans()
-        clanDbSource.saveClanList(fetchClanListResponse.clanList)
-    }
-
-    private fun getClanList(): List<Clan> {
-        return clanDbSource.getClanList()
+    fun getClanList(): LiveData<List<Clan>> {
+        return clanRepository.getClanList()
     }
 }

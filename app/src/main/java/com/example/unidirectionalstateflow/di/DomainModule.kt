@@ -1,6 +1,6 @@
 package com.example.unidirectionalstateflow.di
 
-import com.example.unidirectionalstateflow.data.local.ClanDbSource
+import com.example.unidirectionalstateflow.data.local.db.ClanDbSource
 import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
 import com.example.unidirectionalstateflow.data.local.SharedPrefsSource
 import com.example.unidirectionalstateflow.domain.FetchClansUseCase

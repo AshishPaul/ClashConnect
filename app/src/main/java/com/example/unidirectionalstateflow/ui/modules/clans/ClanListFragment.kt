@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.unidirectionalstateflow.R
-import com.example.unidirectionalstateflow.data.local.model.Clan
+import com.example.unidirectionalstateflow.data.local.db.model.Clan
 import com.example.unidirectionalstateflow.databinding.FragmentClanListBinding
 import com.example.unidirectionalstateflow.ui.BaseFragment
 import javax.inject.Inject

@@ -60,7 +60,7 @@ class DashboardFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
 
-//        text_Switcher = view!!.findViewById(R.id.textSwitcher)
+//        text_Switcher = view!!.findViewById(R.clanId.textSwitcher)
 //        text_Switcher.inAnimation = slideUpIn
 //        text_Switcher.outAnimation = slideUpExit
 
