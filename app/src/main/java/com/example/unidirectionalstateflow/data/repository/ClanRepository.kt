@@ -16,7 +16,7 @@ class ClanRepository @Inject constructor(
 
     fun getClanList(): LiveData<List<Clan>> = clanDao.getAll()
 
-    fun fetchClans() {
+    fun loadClans() {
         val fetchClanListResponse = remoteDataSource.fetchClans()
         clanDao.insertAll(fetchClanListResponse.clanList)
     }

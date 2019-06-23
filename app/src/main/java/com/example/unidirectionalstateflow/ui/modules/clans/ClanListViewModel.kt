@@ -2,6 +2,7 @@ package com.example.unidirectionalstateflow.ui.modules.clans
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.example.unidirectionalstateflow.data.local.db.model.Clan
 import com.example.unidirectionalstateflow.domain.FetchClansUseCase
 import com.example.unidirectionalstateflow.ui.BaseViewModel
@@ -10,8 +11,17 @@ import javax.inject.Inject
 class ClanListViewModel @Inject constructor(private val fetchClansUseCase: FetchClansUseCase) :
     BaseViewModel<ClanListViewState, ClanListViewEffect, ClanListEvent>() {
 
-    private var clanListLiveData: LiveData<List<Clan>>
-    private val viewStateMLD = MutableLiveData<ClanListViewState>()
+    private var clanListLiveData: LiveData<List<Clan>> = fetchClansUseCase.getClanList()
+    private val viewStateMLD = Transformations
+        .map(clanListLiveData) { clanList -> {
+            when(clanList) {
+                null || size==0 ->
+                    ClanListViewState(
+                        adapterList = clanList
+                    )
+            }
+        }
+    }
     private val viewEffectMLD = MutableLiveData<ClanListViewEffect>()
 
     val viewStateLiveData: LiveData<ClanListViewState>
@@ -19,9 +29,6 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
     val viewEffectLiveData: LiveData<ClanListViewEffect>
         get() = viewEffectMLD
 
-    init{
-        clanListLiveData = fetchClansUseCase.getClanList()
-    }
     override fun processEvent(viewEvent: ClanListEvent) {
         when (viewEvent) {
             is ClanListEvent.ScreenLoadEvent -> onScreenLoadEvent()
@@ -36,7 +43,7 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
     }
 
     private fun onScreenLoadEvent() {
-        fetchClansUseCase.fetchClans()
+        fetchClansUseCase.loadClans()
         viewStateMLD.postValue(
             ClanListViewState(
                 adapterList = listOf(
@@ -46,20 +53,19 @@ class ClanListViewModel @Inject constructor(private val fetchClansUseCase: Fetch
             )
         )
     }
-    val square : (Int) -> Unit = { }
 
-    fun testLamda(){
+    val square: (Int) -> Unit = { }
+
+    fun testLamda() {
 
 
         val nine = square(7)
         passMeFunction(square)
     }
 
-    fun passMeFunction(abc:(Int)->Unit){
+    fun passMeFunction(abc: (Int) -> Unit) {
         abc(8)
     }
-
-
 
 
 }
