@@ -32,14 +32,14 @@ class ClanRepository @Inject constructor(
 
     fun getClanList(): LiveData<List<Clan>> = clanDao.getAll()
 
-    fun loadClans() {
+    suspend fun loadClans() {
         withContext(Dispatchers.IO) {
             val fetchClanListResponse = remoteDataSource.fetchClans()
             clanDao.insertAll(fetchClanListResponse.data)
         }
     }
 
-    fun addClan(clan: Clan) {
+    suspend fun addClan(clan: Clan) {
         withContext(Dispatchers.IO) {
             clanDao.insert(clan)
         }

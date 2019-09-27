@@ -21,13 +21,13 @@ import javax.inject.Inject
 
 class FetchClansUseCase @Inject constructor(private val clanRepository: ClanRepository) {
 
-    fun loadClans() {
+    suspend fun loadClans() {
         clanRepository.loadClans()
     }
 
     fun getClanList(): LiveData<List<Clan>> = clanRepository.getClanList()
 
-    fun addClan(clan: Clan) {
+    suspend fun addClan(clan: Clan) {
         clanRepository.addClan(clan)
     }
 }
