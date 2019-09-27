@@ -12,17 +12,18 @@
  * limitations under the License.
  */
 
-package com.example.unidirectionalstateflow.data.local.db
+package com.example.unidirectionalstateflow.ui.base
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
-interface DbDao<Entity> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Entity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(list: List<Entity>)
+abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
 
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
 }

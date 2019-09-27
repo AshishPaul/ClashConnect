@@ -12,17 +12,14 @@
  * limitations under the License.
  */
 
-package com.example.unidirectionalstateflow.data.local.db
+package com.example.unidirectionalstateflow.data.remote.retrofit
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
+import com.example.unidirectionalstateflow.data.remote.model.FetchClanListResponse
+import javax.inject.Inject
 
-interface DbDao<Entity> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Entity)
+class RetrofitDataSource @Inject constructor(private val clanService: ClanService) :
+    RemoteDataSource {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(list: List<Entity>)
-
-
+    override suspend fun fetchClans(): FetchClanListResponse = clanService.getAllClans()
 }

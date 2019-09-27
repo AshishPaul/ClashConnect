@@ -12,17 +12,13 @@
  * limitations under the License.
  */
 
-package com.example.unidirectionalstateflow.data.local.db
+package com.example.unidirectionalstateflow.data.remote.retrofit
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import com.example.unidirectionalstateflow.data.remote.model.FetchClanListResponse
+import retrofit2.http.GET
 
-interface DbDao<Entity> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Entity)
+interface ClanService {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(list: List<Entity>)
-
-
+    @GET("api/clans")
+    suspend fun getAllClans(): FetchClanListResponse
 }

@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) Ashish , 2019
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.unidirectionalstateflow.ui.modules.clans
 
 import android.view.LayoutInflater
@@ -31,7 +45,7 @@ class ClanListRecyclerAdapter
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = clanList[position]
-        holder.idTextView.text = item.clanId.toString()
+        holder.idTextView.text = item.id
         holder.nameTextView.text = item.name
     }
 
@@ -44,7 +58,7 @@ class ClanListRecyclerAdapter
         }
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val idTextView: TextView = mView.item_number
         val nameTextView: TextView = mView.name
 
@@ -52,6 +66,4 @@ class ClanListRecyclerAdapter
             return super.toString() + " '" + nameTextView.text + "'"
         }
     }
-
-
 }

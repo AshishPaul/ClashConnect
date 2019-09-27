@@ -12,17 +12,15 @@
  * limitations under the License.
  */
 
-package com.example.unidirectionalstateflow.data.local.db
+package com.example.unidirectionalstateflow.ui.base
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.lifecycle.ViewModel
 
-interface DbDao<Entity> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Entity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(list: List<Entity>)
+abstract class BaseViewModel<ViewState,ViewEffect,ViewEvent> : ViewModel() {
 
 
+    abstract fun processEvent(viewEvent: ViewEvent)
 }
+//
+//fun <T :ViewModel> getViewModelForFragment(fragment: Fragment, viewModelFactory: ViewModelProvider.Factory) : T =
+//    ViewModelProviders.of(fragment,viewModelFactory).get(T::class.java)

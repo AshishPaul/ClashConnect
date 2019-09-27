@@ -12,17 +12,17 @@
  * limitations under the License.
  */
 
-package com.example.unidirectionalstateflow.data.local.db
+package com.example.unidirectionalstateflow.ui.base
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.unidirectionalstateflow.di.Injectable
 
-interface DbDao<Entity> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Entity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(list: List<Entity>)
-
-
+abstract class BaseFragment : Fragment(), Injectable {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = findNavController().currentDestination?.label
+    }
 }

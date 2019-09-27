@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) Ashish , 2019
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.unidirectionalstateflow.data.local.db
 
 import androidx.lifecycle.LiveData
@@ -5,11 +19,15 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.example.unidirectionalstateflow.data.local.db.model.Clan
 
-@Dao
-interface ClanDao: DbDao<Clan>{
-    @Query("SELECT * FROM TABLE_CLAN WHERE clanId = :id")
-    fun getById(id: Long): LiveData<Clan>
 
-    @Query("SELECT * FROM TABLE_CLAN")
+const val QUERY_GET_ALL = "SELECT * FROM TABLE_CLAN"
+const val QUERY_GET_BY_ID = "SELECT * FROM TABLE_CLAN WHERE id = :id"
+
+@Dao
+interface ClanDao : DbDao<Clan> {
+    @Query(QUERY_GET_ALL)
     fun getAll(): LiveData<List<Clan>>
+
+    @Query(QUERY_GET_BY_ID)
+    fun getById(id: Long): LiveData<Clan>
 }
