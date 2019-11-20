@@ -14,20 +14,11 @@
 
 package com.example.unidirectionalstateflow.domain
 
-import androidx.lifecycle.LiveData
 import com.example.unidirectionalstateflow.data.local.db.model.Clan
-import com.example.unidirectionalstateflow.data.repository.ClanRepository
-import javax.inject.Inject
 
-class FetchClansUseCase @Inject constructor(private val clanRepository: ClanRepository) {
-
-    suspend fun loadClans() {
-        clanRepository.loadClans()
-    }
-
-    fun getClanList(): LiveData<List<Clan>> = clanRepository.getClanList()
-
-    suspend fun addClan(clan: Clan) {
-        clanRepository.addClan(clan)
-    }
+sealed class ClanResult {
+    object Loading : ClanResult()
+    data class Error(val errorCode: Int) : ClanResult()
+    data class Success(val data: List<Clan>) : ClanResult()
+    object AddSuccess : ClanResult()
 }

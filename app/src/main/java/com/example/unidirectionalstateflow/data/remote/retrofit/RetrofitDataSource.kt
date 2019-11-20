@@ -15,11 +15,12 @@
 package com.example.unidirectionalstateflow.data.remote.retrofit
 
 import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
-import com.example.unidirectionalstateflow.data.remote.model.FetchClanListResponse
+import com.example.unidirectionalstateflow.data.remote.model.ClanListResponse
+import retrofit2.Response
 import javax.inject.Inject
 
 class RetrofitDataSource @Inject constructor(private val clanService: ClanService) :
     RemoteDataSource {
 
-    override suspend fun fetchClans(): FetchClanListResponse = clanService.getAllClans()
+    override suspend fun fetchClans(): Response<ClanListResponse> = clanService.getAllClans()
 }

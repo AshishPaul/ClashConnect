@@ -25,10 +25,11 @@ data class ClanListViewState(
 
 sealed class ClanListViewEffect{
     object NavigateToClanDetailsEffect : ClanListViewEffect()
+    object ClanAddedEffect : ClanListViewEffect()
 }
 
 sealed class ClanListEvent{
-    object ScreenLoadEvent : ClanListEvent()
-    data class AddItemToListEvent(val clan: Clan) : ClanListEvent()
+    object LoadClanListEvent : ClanListEvent()
+    data class AddClanEvent(val clan: Clan) : ClanListEvent()
 }
 

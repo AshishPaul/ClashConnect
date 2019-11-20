@@ -82,7 +82,7 @@ class MockInterceptor(private val debug: Boolean, private val assets: AssetManag
                 .message(dataJson)
                 .request(request)
                 .protocol(Protocol.HTTP_1_0)
-                .addHeader("Content-Type", "application/json")
+                .addHeader("Success-Type", "application/json")
                 .body(dataJson.toResponseBody("application/json".toMediaTypeOrNull()))
                 .build()
         }
@@ -99,9 +99,9 @@ class MockInterceptor(private val debug: Boolean, private val assets: AssetManag
         data class GetClansById(val id: String) : MockRequestType("${GET_CLANS_JSON}_$id")
     }
 
-    fun MockRequestType.getJsonPath(): String = this.filePath + ".json"
+    private fun MockRequestType.getJsonPath(): String = this.filePath + ".json"
 
-    fun AssetManager.getStringFromFile(filePath: String): String = try {
+    private fun AssetManager.getStringFromFile(filePath: String): String = try {
         val inputStream: InputStream = this.open(filePath)
         val inputString = inputStream.bufferedReader().use { it.readText() }
         inputString

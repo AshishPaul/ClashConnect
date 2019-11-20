@@ -16,40 +16,87 @@ package com.example.unidirectionalstateflow.ui.modules.clans
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.unidirectionalstateflow.data.local.db.model.Clan
-import com.example.unidirectionalstateflow.domain.FetchClansUseCase
-import com.example.unidirectionalstateflow.ui.base.BaseViewModel
+import com.example.unidirectionalstateflow.domain.ClanAction
+import com.example.unidirectionalstateflow.domain.ClanResult
+import com.example.unidirectionalstateflow.domain.ErrorHandler
+import com.example.unidirectionalstateflow.domain.usecase.ClanListUseCase
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ClanListViewModel @Inject constructor(private val fetchClansUseCase: FetchClansUseCase) :
-    BaseViewModel<ClanListViewState, ClanListViewEffect, ClanListEvent>() {
+class ClanListViewModel @Inject constructor(
+    private val fetchClanListUseCase: ClanListUseCase,
+    private val errorHandler: ErrorHandler
+) : ViewModel() {
 
-    private val viewStateMLD = MutableLiveData<ClanListViewState>()
     private val viewEffectMLD = MutableLiveData<ClanListViewEffect>()
+    private val viewStateMLD = MutableLiveData<ClanListViewState>()
 
-    val viewState: LiveData<ClanListViewState>
-        get() = Transformations
-            .map(fetchClansUseCase.getClanList()) {
-                ClanListViewState(adapterList = it)
-            }
     val viewEffect: LiveData<ClanListViewEffect>
-        get() = MutableLiveData<ClanListViewEffect>()
+        get() = viewEffectMLD
+    val viewState: LiveData<ClanListViewState>
+        get() = viewStateMLD
 
-    override fun processEvent(viewEvent: ClanListEvent) {
-        when (viewEvent) {
-            is ClanListEvent.ScreenLoadEvent -> onScreenLoadEvent()
-            is ClanListEvent.AddItemToListEvent -> onAddItemToListEvent(viewEvent.clan)
+    private var currentViewState = ClanListViewState()
+        set(value) {
+            field = value
+            viewStateMLD.value = value
+        }
+
+    fun processEvent(event: ClanListEvent) {
+        when (event) {
+            is ClanListEvent.LoadClanListEvent -> {
+                loadClanList()
+            }
+
+            is ClanListEvent.AddClanEvent -> {
+                addClan(event.clan)
+            }
         }
     }
 
-    private fun onAddItemToListEvent(clan: Clan) {
-        viewModelScope.launch { fetchClansUseCase.addClan(clan) }
+    private fun addClan(clan: Clan) {
+        viewModelScope.launch {
+            fetchClanListUseCase.addClan(clan)
+
+            resultToViewEffect(ClanResult.AddSuccess)
+        }
     }
 
-    private fun onScreenLoadEvent() {
-        viewModelScope.launch { fetchClansUseCase.loadClans() }
+    private fun resultToViewEffect(result: ClanResult) {
+        when (result) {
+            is ClanResult.AddSuccess -> viewEffectMLD.value = ClanListViewEffect.ClanAddedEffect
+        }
+    }
+
+    private fun resultToViewState(result: ClanResult) {
+        when (result) {
+            is ClanResult.Loading -> currentViewState.copy(showListLoading = true)
+            is ClanResult.Success -> currentViewState.copy(
+                showListLoading = false,
+                adapterList = result.data,
+                pageErrorText = ""
+            )
+            is ClanResult.Error -> currentViewState.copy(
+                showListLoading = false,
+                pageErrorText = errorHandler.getDisplayErrorMsg(result.errorCode)
+            )
+        }
+    }
+
+    private fun loadClanList() {
+        viewModelScope.launch {
+            resultToViewState(ClanResult.Loading)
+            val result = fetchClanListUseCase.process(ClanAction.GetClanListAction)
+
+//            if (dataResult is ClanResult.Error) {
+//                emit(dataResult)
+//            }
+        }
+//        Transformations.map() {
+//            resultToViewState(it)
+//        }
     }
 }

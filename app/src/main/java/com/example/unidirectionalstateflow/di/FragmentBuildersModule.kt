@@ -14,22 +14,20 @@
 
 package com.example.unidirectionalstateflow.di
 
-import com.example.unidirectionalstateflow.data.repository.ClanRepository
-import com.example.unidirectionalstateflow.domain.ErrorHandler
-import com.example.unidirectionalstateflow.domain.ErrorHandlerImpl
-import com.example.unidirectionalstateflow.domain.usecase.ClanListUseCase
+import com.example.unidirectionalstateflow.ui.modules.clans.ClanListFragment
+import com.example.unidirectionalstateflow.ui.modules.dashboard.DashboardFragment
+import com.example.unidirectionalstateflow.ui.modules.settings.SettingsFragment
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import dagger.android.ContributesAndroidInjector
 
 @Module
-class DomainModule {
+abstract class FragmentBuildersModule {
+    @ContributesAndroidInjector
+    internal abstract fun contributeClanListFragment(): ClanListFragment
 
-    @Provides
-    @Singleton
-    fun providesFetchClanUseCase(clanRepository: ClanRepository): ClanListUseCase =
-        ClanListUseCase(clanRepository)
+    @ContributesAndroidInjector
+    internal abstract fun contributeDashboardFragment(): DashboardFragment
 
-    @Provides
-    fun providesErrorHandler(): ErrorHandler = ErrorHandlerImpl()
+    @ContributesAndroidInjector
+    internal abstract fun contributeSettingsFragment(): SettingsFragment
 }

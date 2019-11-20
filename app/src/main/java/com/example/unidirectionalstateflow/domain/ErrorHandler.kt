@@ -14,8 +14,13 @@
 
 package com.example.unidirectionalstateflow.domain
 
-interface Action
+interface ErrorHandler {
+    fun getDisplayErrorMsg(errorCode: Int): String
+}
 
-sealed class ClanAction : Action {
-    object GetClanListAction : ClanAction()
+class ErrorHandlerImpl : ErrorHandler {
+    override fun getDisplayErrorMsg(errorCode: Int): String {
+        return ""
+    }
+
 }

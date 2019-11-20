@@ -21,16 +21,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.unidirectionalstateflow.R
 import com.example.unidirectionalstateflow.data.local.db.model.Clan
 import com.example.unidirectionalstateflow.databinding.FragmentClanListBinding
+import com.example.unidirectionalstateflow.di.ViewModelFactory
 import com.example.unidirectionalstateflow.ui.base.BaseFragment
 import javax.inject.Inject
 
 class ClanListFragment : BaseFragment() {
-
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private var counter = 0L
     private lateinit var binding: FragmentClanListBinding
     private var listener: ClanListRecyclerAdapter.ClanListInteractionListener? = null
@@ -39,12 +41,8 @@ class ClanListFragment : BaseFragment() {
         fun onListFragmentInteraction(item: Clan?)
     }
 
-
-    @Inject
-    lateinit var viewModelFactory: ClanListViewModelFactory
-
     private val viewModel: ClanListViewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(ClanListViewModel::class.java)
+        ViewModelProvider(this, viewModelFactory)[ClanListViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -71,9 +69,19 @@ class ClanListFragment : BaseFragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        sendEventToViewModel(ClanListEvent.LoadClanListEvent)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
     private fun onFabClicked() {
         sendEventToViewModel(
-            ClanListEvent.AddItemToListEvent(
+            ClanListEvent.AddClanEvent(
                 Clan(
                     counter.toString(),
                     "Test $counter"
@@ -83,6 +91,9 @@ class ClanListFragment : BaseFragment() {
         counter++
     }
 
+    private fun sendEventToViewModel(event: ClanListEvent) {
+        viewModel.processEvent(event)
+    }
 
     private fun renderViewState(clanListViewState: ClanListViewState) {
         binding.viewState = clanListViewState
@@ -92,22 +103,12 @@ class ClanListFragment : BaseFragment() {
         when (clanListViewEffect) {
             is ClanListViewEffect.NavigateToClanDetailsEffect ->
                 Toast.makeText(requireContext(), "Go to Clan details", Toast.LENGTH_SHORT).show()
+            is ClanListViewEffect.ClanAddedEffect ->
+                Toast.makeText(
+                    requireContext(),
+                    "Clan added successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        sendEventToViewModel(ClanListEvent.ScreenLoadEvent)
-    }
-
-    private fun sendEventToViewModel(event: ClanListEvent) {
-        viewModel.processEvent(event)
-    }
-
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
 }

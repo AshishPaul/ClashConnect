@@ -14,9 +14,10 @@
 
 package com.example.unidirectionalstateflow.data.remote
 
-import com.example.unidirectionalstateflow.data.remote.model.FetchClanListResponse
+import com.example.unidirectionalstateflow.data.remote.model.ClanListResponse
+import retrofit2.Response
 
 interface RemoteDataSource {
-    suspend fun fetchClans(): FetchClanListResponse
+    suspend fun fetchClans(): Response<ClanListResponse>
 }
 

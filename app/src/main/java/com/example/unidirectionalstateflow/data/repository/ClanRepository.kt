@@ -18,6 +18,7 @@ import androidx.lifecycle.LiveData
 import com.example.unidirectionalstateflow.data.local.db.ClanDao
 import com.example.unidirectionalstateflow.data.local.db.model.Clan
 import com.example.unidirectionalstateflow.data.remote.RemoteDataSource
+import com.example.unidirectionalstateflow.domain.ClanResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,14 +31,36 @@ class ClanRepository @Inject constructor(
     private val clanDao: ClanDao
 ) {
 
-    fun getClanList(): LiveData<List<Clan>> = clanDao.getAll()
+    suspend fun getClanList(): LiveData<List<Clan>> = clanDao.getAll()
 
-    suspend fun loadClans() {
-        withContext(Dispatchers.IO) {
-            val fetchClanListResponse = remoteDataSource.fetchClans()
-            clanDao.insertAll(fetchClanListResponse.data)
+    suspend fun loadClans(): ClanResult {
+        //        withContext(Dispatchers.IO) {
+        try {
+            val response = remoteDataSource.fetchClans()
+            return if (response.isSuccessful) {
+                val body = response.body()
+                // Empty body
+                if (body == null || response.code() == 204) {
+                    ClanResult.Error(204)
+                } else {
+                    clanDao.insertAll(body.data)
+                    ClanResult.Success(body.data)
+                }
+            } else {
+                //                val msg = response.errorBody()?.string()
+                //                val errorMessage = if(msg.isNullOrEmpty()) {
+                //                    response.message()
+                //                } else {
+                //                    msg
+                //                }
+                ClanResult.Error(204)
+            }
+        } catch (e: Exception) {
+            return ClanResult.Error(204)
         }
+//    }
     }
+
 
     suspend fun addClan(clan: Clan) {
         withContext(Dispatchers.IO) {

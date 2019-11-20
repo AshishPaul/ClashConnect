@@ -11,11 +11,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.example.unidirectionalstateflow.domain
-
-interface Action
-
-sealed class ClanAction : Action {
-    object GetClanListAction : ClanAction()
-}

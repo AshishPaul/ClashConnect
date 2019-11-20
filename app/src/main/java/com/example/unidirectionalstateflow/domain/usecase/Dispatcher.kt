@@ -12,10 +12,11 @@
  * limitations under the License.
  */
 
-package com.example.unidirectionalstateflow.data.remote.model
+package com.example.unidirectionalstateflow.domain.usecase
 
-import com.example.unidirectionalstateflow.data.local.db.model.Clan
-import kotlinx.serialization.Serializable
+import androidx.lifecycle.LiveData
+import com.example.unidirectionalstateflow.domain.Action
 
-@Serializable
-data class FetchClanListResponse(val code: Int, val data: List<Clan>)
+interface Dispatcher<T> {
+    fun dispatchAction(action: Action): LiveData<T>
+}

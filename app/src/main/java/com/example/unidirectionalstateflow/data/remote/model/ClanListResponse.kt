@@ -12,10 +12,10 @@
  * limitations under the License.
  */
 
-package com.example.unidirectionalstateflow.domain
+package com.example.unidirectionalstateflow.data.remote.model
 
-interface Action
+import com.example.unidirectionalstateflow.data.local.db.model.Clan
+import kotlinx.serialization.Serializable
 
-sealed class ClanAction : Action {
-    object GetClanListAction : ClanAction()
-}
+@Serializable
+data class ClanListResponse(val code: Int, val data: List<Clan>)

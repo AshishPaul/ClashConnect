@@ -18,6 +18,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlinx-serialization'
 
+androidExtensions {
+    experimental = true
+}
 
 android {
     compileSdkVersion versions.sdk.compile
@@ -40,47 +43,63 @@ android {
     dataBinding {
         enabled = true
     }
+
+    kotlinOptions {
+        freeCompilerArgs += ["-XXLanguage:+InlineClasses"]
+    }
 }
 
 dependencies {
+    //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1"
 
+    //android
+    implementation 'androidx.core:core-ktx:1.2.0-beta01'
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "com.google.android.material:material:$versions.material"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraint"
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta04'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta05'
     implementation "android.arch.navigation:navigation-fragment-ktx:$versions.navigation"
     implementation "android.arch.navigation:navigation-ui-ktx:$versions.navigation"
-    implementation "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0'
+
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
     implementation "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
 
+    //dagger
     implementation "com.google.dagger:dagger:$versions.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
     implementation "com.google.dagger:dagger-android:$versions.dagger"
     implementation "com.google.dagger:dagger-android-support:$versions.dagger"
     kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
 
-    testImplementation "junit:junit:$versions.junit"
-    androidTestImplementation "androidx.test:runner:$versions.androidx_test_runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.androidx_test_espresso"
-
+    //room
     implementation "androidx.room:room-runtime:$versions.room"
     implementation "androidx.room:room-ktx:$versions.room"
     kapt "androidx.room:room-compiler:$versions.room"
     androidTestImplementation "androidx.room:room-testing:$versions.room"
-    implementation 'androidx.core:core-ktx:1.2.0-alpha04'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha05'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
-    implementation "com.jakewharton.timber:timber:${versions.timber}"
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.11.1"
 
+    //testing
+    testImplementation "junit:junit:$versions.junit"
+    androidTestImplementation "androidx.test:runner:$versions.androidx_test_runner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$versions.androidx_test_espresso"
+
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+
+    implementation "com.jakewharton.timber:timber:${versions.timber}"
 
 }
